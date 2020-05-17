@@ -1,25 +1,40 @@
 class BooksController < ApplicationController
+before_action :authenticate_user!, only: [:show, :index, :edit]
+  def top
+  end
+
+  def about
+  end
 
   def show
   	@book = Book.find(params[:id])
+    @user = @book.user
   end
 
   def index
   	@books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
+    @book = Book.new
+    @user = current_user
   end
 
   def create
   	@book = Book.new(book_params) #Bookモデルのテーブルを使用しているのでbookコントローラで保存する。
+    @book.user_id = current_user.id
   	if @book.save #入力されたデータをdbに保存する。
-  		redirect_to @book, notice: "successfully created book!"#保存された場合の移動先を指定。
+       flash[:notice] = "successfully created book!"
+  		 redirect_to book_path(@book) #保存された場合の移動先を指定。
   	else
-  		@books = Book.all
-  		render 'index'
+  		 @books = Book.all
+       @user = current_user
+  		 render action: :index
   	end
   end
 
   def edit
   	@book = Book.find(params[:id])
+    if current_user.id != @book.user.id
+       redirect_to books_path
+    end
   end
 
 
@@ -27,22 +42,24 @@ class BooksController < ApplicationController
   def update
   	@book = Book.find(params[:id])
   	if @book.update(book_params)
-  		redirect_to @book, notice: "successfully updated book!"
+       flash[:notice] = "successfully updated book!"
+  		 redirect_to book_path(@book) 
   	else #if文でエラー発生時と正常時のリンク先を枝分かれにしている。
-  		render "edit"
+  		render action: :edit
   	end
   end
 
-  def delete
-  	@book = Book.find(params[:id])
-  	@book.destoy
-  	redirect_to books_path, notice: "successfully delete book!"
+  def destroy
+  	  book = Book.find(params[:id])
+  	  book.destroy
+      flash[:notice] = "successfully delete book!"
+  	  redirect_to books_path
   end
 
   private
 
   def book_params
-  	params.require(:book).permit(:title)
+  	params.require(:book).permit(:title, :body)
   end
 
 end

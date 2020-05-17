@@ -1,25 +1,25 @@
 <h2>User info</h2>
-
-<%= form_for(@user) do |f| %>
-
+<%= flash[:notice] %>
 <!-- エラーメッセージ表示-->
 <% if @user.errors.any? %>
-	<h3><%= @user.errors.count %>error occurrence</h3><!--エラーメッセ-->
-	<ul>
-		<% @user.errors.full_messages.each do |message| %>
-		<li><%= message %></li>
-		<% end %>
-	</ul>
+   <div id="error_explanation" class="alert alert-danger">
+   	<%= pluralize(@user.errors.count, "error")%> prohibited this obj from being saved:
+  	 <ul>
+  	   <% @user.errors.full_messages.each do |message| %>
+         <li><%= message %></li>
+         <% end %>
+     </ul>
+   </div>
 <% end %>
 <!-- エラーメッセージ表示-->
-
+<%= form_for(@user) do |f| %>
 <div class="field">
-	<%= f.label :title %>
-	<%= f.text_field :title, class: "name" %>
+	<%= f.label :name %>
+	<%= f.text_field :name, class: "name" %>
 </div>
 
 <div class="field">
-	<%= f.label :image %>
+	<%= f.label :profile_image %>
 	<%= f.attachment_field :profile_image, class: "user_image" %>
 </div>
 
