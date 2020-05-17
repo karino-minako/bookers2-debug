@@ -12,6 +12,16 @@
 
 	<div class="col-xs-9">
 		<h2>Book detail</h2>
+		<% if @book_comment.errors.any? %>
+          <div id="error_explanation" class="alert alert-danger">
+          <%= pluralize(@book_comment.errors.count, "error")%> prohibited this odj from being saved:
+            <ul>
+  	           <% @book_comment.errors.full_messages.each do |message| %>
+  	           <li><%= message %></li>
+  	           <% end %>
+            </ul>
+          </div>
+        <% end %>
 
 		<table class="table">
 				<tr>
