@@ -4,5 +4,9 @@ Rails.application.routes.draw do
   get 'home/about' => "books#about"
   
   resources :users
-  resources :books
+  
+  resources :books do
+  	resource :book_comments, only: [:create]
+  end
+
  end
