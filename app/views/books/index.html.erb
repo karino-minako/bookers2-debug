@@ -36,12 +36,12 @@
 					<td><%= book.body %></td>
 					<td>
 						<% if @book.favorited_by?(current_user) %>
-						  <%= link_to book_favorites_path(book.id), method: :delete do %>
+						  <%= link_to book_favorites_path(book.id), method: :delete, remote: true do %>
 						  <i class="glyphicon glyphicon-heart" aria-hidden="true" style="color: red;"></i>
 						  <%= @book.favorites.count %> いいね
 						  <% end %>
 						<% else %>
-						  <%= link_to book_favorites_path(book.id), method: :post do %>
+						  <%= link_to book_favorites_path(book.id), method: :post, remote: true  do %>
 						  <i class="glyphicon glyphicon-heart-empty" aria-hidden="true"></i>
 						  <%= @book.favorites.count %> いいね
 						  <% end %>
