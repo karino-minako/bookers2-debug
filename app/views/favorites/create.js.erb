@@ -1,2 +1,4 @@
-//$('favorites_<%= @book.id %>').html("<%= j(render 'favorites/favorite', book: @book ) %>");
-$('#favorites_<%= @book.id %>').html("<%= j(render partial: 'favorites/favorite', locals: {book: @book}) %>");
+$('#like_<%= @book.id %>').html("<%= j(render partial: 'favorites/favorite', locals: {book: @book}) %>");
+
+$('#favorites_<%= @book.id %>').html("<%= j(render partial: 'favorites/show', locals: {book: @book}) %>");
+
