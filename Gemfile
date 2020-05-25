@@ -80,4 +80,8 @@ gem 'jquery-rails'
 
 gem 'ransack'
 
+gem 'jp_prefecture'
 
+gem 'geocoder'
+
+gem 'dotenv-rails'

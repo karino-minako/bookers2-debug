@@ -20,19 +20,36 @@ class User < ApplicationRecord
   has_many :followers, through: :reverse_of_relationships, source: :user
 
   def follow(other_user)
-  	unless self == other_user
-  	  self.relationships.find_or_create_by(follow_id: other_user.id)
-  	end
+    unless self == other_user
+      self.relationships.find_or_create_by(follow_id: other_user.id)
+    end
   end
 
   def unfollow(other_user)
-  	relationship = self.relationships.find_by(follow_id: other_user.id)
-  	relationship.destroy if relationship
+    relationship = self.relationships.find_by(follow_id: other_user.id)
+    relationship.destroy if relationship
   end
 
   def following?(other_user)
-  	self.followings.include?(other_user)
+    self.followings.include?(other_user)
   end
-  
-  
+
+  include JpPrefecture
+  jp_prefecture :prefecture_code
+
+  def prefecture_name
+    JpPrefecture::Prefecture.find(code: prefecture_code).try(:name)
+  end
+
+  def prefecture_name=(prefecture_name)
+    self.prefecture_code = JpPrefecture::Prefecture.find(name: prefecture_name).code
+  end
+
+  def address
+    [prefecture_code, city, building].compact.join(',')
+  end
+
+  geocoded_by :address, latitude: :lat, longitude: :lon
+
+
 end
