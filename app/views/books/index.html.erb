@@ -1,14 +1,11 @@
 <div class="container">
-<div class="row">
+  <div class="row">
 	<div class="col-xs-3">
-
-		
 		<%= render 'users/profile', book: @book, user: @user %>
 		<!--メモ　右側の指定に注意。そこを間違えるとエラーが発生して表示されない -->
         <%= render 'relationships/follow_button', user: @user %>
 		<h2>New book</h2>
 		<%= render 'books/newform', book: @book %>
-
 	</div>
 
 	<div class="col-xs-9">
@@ -30,6 +27,11 @@
 				<% end %>
 			</tbody>
 		</table>
+		<% @all_ranks.each do |book| %>
+		    <%= book.title %>
+		<% end %>
+
 	</div>
 </div>
 </div>
+<% current_user.address %>

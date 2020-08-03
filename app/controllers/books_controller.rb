@@ -18,6 +18,7 @@ before_action :authenticate_user!, only: [:show, :index, :edit]
     @books = Book.all #一覧表示するためにBookモデルの情報を全てくださいのall
     @book = Book.new
     @user = current_user
+    @all_ranks = Book.find(Favorite.group(:book_id).order('count(book_id) desc').limit(3).pluck(:book_id))
   end
 
   def create
@@ -59,7 +60,7 @@ before_action :authenticate_user!, only: [:show, :index, :edit]
       redirect_to books_path
   end
 
-  
+
 
   private
 
